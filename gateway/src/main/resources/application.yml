@@ -1,0 +1,31 @@
+server:
+  port: 8000
+
+
+spring:
+  application:
+    name: yuanql-rain-gateway
+  cloud:
+    gateway:
+      routes:  # 路由转发，将/member/... 的请求转发给member模块
+        - id: member
+          uri: http://127.0.0.1:8081
+          predicates:
+            - Path=/member/**
+        - id: business
+          uri: http://127.0.0.1:8082
+          predicates:
+            - Path=/business/**
+        - id: batch
+          uri: http://127.0.0.1:8083
+          predicates:
+            - Path=/batch/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowCredentials: true
+            allowedHeaders: '*'
+            allowedMethods: '*'
+            allowedOriginPatterns: '*'
+            maxAge: 3600
+
